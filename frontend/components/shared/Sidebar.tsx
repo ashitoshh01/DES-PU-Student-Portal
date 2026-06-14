@@ -1,12 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUIStore } from "@/store/ui.store";
 import StorageCard from "@/components/dashboard/StorageCard";
 import {
   LayoutDashboard,
   MessageCircle,
+  FileText,
   FolderOpen,
   BookOpen,
   Rocket,
@@ -26,6 +29,7 @@ import {
 const navItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard", active: true },
   { icon: MessageCircle, label: "Chat", href: "/chat" },
+  { icon: FileText, label: "Forms", href: "/forms" },
   { icon: FolderOpen, label: "Resources", href: "/resources" },
   { icon: BookOpen, label: "Subjects", href: "/subjects" },
   { icon: Rocket, label: "Projects", href: "/projects" },
@@ -43,7 +47,7 @@ const bottomItems = [
 
 export default function Sidebar() {
   const { sidebarOpen, setSidebarOpen, sidebarCollapsed, setSidebarCollapsed } = useUIStore();
-  const [activeItem, setActiveItem] = useState("Dashboard");
+  const pathname = usePathname() || "";
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -123,11 +127,12 @@ export default function Sidebar() {
         }`}>
           <div className="space-y-0.5">
             {navItems.map((item) => {
-              const isActive = activeItem === item.label;
+              const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
               return (
-                <button
+                <Link
                   key={item.label}
-                  onClick={() => setActiveItem(item.label)}
+                  href={item.href}
+                  onClick={() => isMobile && setSidebarOpen(false)}
                   className={`
                     w-full flex items-center rounded-xl text-[13px] font-medium
                     transition-all duration-200 relative group
@@ -170,7 +175,7 @@ export default function Sidebar() {
                       {item.label}
                     </span>
                   )}
-                </button>
+                </Link>
               );
             })}
           </div>
@@ -178,16 +183,20 @@ export default function Sidebar() {
           <div className="h-px bg-border/50 my-4" />
 
           <div className="space-y-0.5">
-            {bottomItems.map((item) => (
-              <button
+            {bottomItems.map((item) => {
+              const isActive = pathname === item.href || pathname.startsWith(item.href);
+              return (
+              <Link
                 key={item.label}
-                onClick={() => setActiveItem(item.label)}
+                href={item.href}
+                onClick={() => isMobile && setSidebarOpen(false)}
                 className={`
-                  w-full flex items-center rounded-xl text-[13px] font-medium text-text-secondary hover:bg-background hover:text-text-primary transition-all duration-200 relative group
+                  w-full flex items-center rounded-xl text-[13px] font-medium transition-all duration-200 relative group
                   ${sidebarCollapsed ? "justify-center px-0 py-2.5" : "gap-3 px-3 py-2.5"}
+                  ${isActive ? "bg-primary-light text-primary" : "text-text-secondary hover:bg-background hover:text-text-primary"}
                 `}
               >
-                <item.icon size={18} strokeWidth={1.8} />
+                <item.icon size={18} strokeWidth={1.8} className={isActive ? "text-primary" : ""} />
                 <AnimatePresence mode="wait">
                   {!sidebarCollapsed && (
                     <motion.span
@@ -206,8 +215,8 @@ export default function Sidebar() {
                     {item.label}
                   </span>
                 )}
-              </button>
-            ))}
+              </Link>
+            )})}
           </div>
         </nav>
 

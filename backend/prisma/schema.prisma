@@ -47,13 +47,16 @@ enum ConversationType {
   GROUP
   SUBJECT_GROUP
   PROJECT_GROUP
+  COMMUNITY
 }
 
 
 enum MessageType {
   TEXT
   IMAGE
+  VIDEO
   FILE
+  POLL
   FORM
   SYSTEM
 }
@@ -67,6 +70,9 @@ enum FormQuestionType {
   DATE
   TIME
   FILE_UPLOAD
+  LINEAR_SCALE
+  MCQ_GRID
+  CHECKBOX_GRID
 }
 
 enum NotificationType {
@@ -594,6 +600,10 @@ model Form {
   conv_id      String?
 
   is_active    Boolean  @default(true)
+  is_draft     Boolean  @default(true)
+  is_published Boolean  @default(false)
+  expires_at   DateTime?
+  theme_color  String?  @default("#E86E0A")
 
   allow_edit_responses Boolean @default(false)
 
@@ -605,6 +615,7 @@ model Form {
   conversation Conversation? @relation(fields: [conv_id], references: [conv_id])
 
   questions FormQuestion[]
+  sections  FormSection[]
 
   responses FormResponse[]
 
@@ -700,6 +711,18 @@ model ConversationMember {
   @@map("conversation_members")
 }
 
+model MessageReaction {
+  msg_id   String
+  user_id  String
+  emoji    String    // 👍 ❤️ 🔥 😂 🎉
+  created_at DateTime @default(now())
+
+  message Message @relation(fields: [msg_id], references: [msg_id])
+
+  @@id([msg_id, user_id, emoji])
+  @@map("message_reactions")
+}
+
 model Message {
   msg_id      String      @id @default(uuid())
   conv_id     String
@@ -708,9 +731,12 @@ model Message {
   type        MessageType @default(TEXT)
 
   r2_key      String?
+  file_name   String?
+  file_size   Int?
+  mime_type   String?
 
-  // NEW
   form_id     String?
+  poll_id     String?
 
   is_deleted  Boolean     @default(false)
   edited_at   DateTime?
@@ -718,8 +744,10 @@ model Message {
 
   conversation  Conversation         @relation(fields: [conv_id], references: [conv_id])
   read_receipts MessageReadReceipt[]
+  reactions     MessageReaction[]
 
   form Form? @relation(fields: [form_id], references: [form_id])
+  poll Poll? @relation(fields: [poll_id], references: [poll_id])
 
   @@index([conv_id])
   @@index([sender_id])
@@ -737,6 +765,105 @@ model MessageReadReceipt {
 
   @@id([msg_id, user_id])
   @@map("message_read_receipts")
+}
+
+// ============================================================
+// PHASE 2.6 — POLLS
+// ============================================================
+
+model Poll {
+  poll_id       String    @id @default(uuid())
+  question      String
+  is_anonymous  Boolean   @default(false)
+  is_multiple   Boolean   @default(false)
+  expires_at    DateTime?
+  created_by    String
+  created_at    DateTime  @default(now())
+
+  options  PollOption[]
+  votes    PollVote[]
+  messages Message[]
+
+  @@index([created_by])
+  @@map("polls")
+}
+
+model PollOption {
+  option_id String @id @default(uuid())
+  poll_id   String
+  text      String
+  position  Int
+
+  poll  Poll       @relation(fields: [poll_id], references: [poll_id])
+  votes PollVote[]
+
+  @@index([poll_id])
+  @@map("poll_options")
+}
+
+model PollVote {
+  poll_id   String
+  option_id String
+  user_id   String
+  voted_at  DateTime @default(now())
+
+  poll   Poll       @relation(fields: [poll_id], references: [poll_id])
+  option PollOption @relation(fields: [option_id], references: [option_id])
+
+  @@id([poll_id, option_id, user_id])
+  @@map("poll_votes")
+}
+
+// ============================================================
+// PHASE 2.7 — FORM SECTIONS
+// ============================================================
+
+model FormSection {
+  section_id  String @id @default(uuid())
+  form_id     String
+  title       String
+  description String?
+  position    Int
+
+  form Form @relation(fields: [form_id], references: [form_id])
+
+  @@index([form_id])
+  @@map("form_sections")
+}
+
+// ============================================================
+// PHASE 2.8 — COMMUNITIES
+// ============================================================
+
+model Community {
+  community_id String  @id @default(uuid())
+  name         String
+  description  String?
+  banner_key   String?
+  avatar_key   String?
+  created_by   String
+  member_count Int     @default(0)
+  is_official  Boolean @default(false)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  members  CommunityMember[]
+
+  @@index([created_by])
+  @@map("communities")
+}
+
+model CommunityMember {
+  community_id String
+  user_id      String
+  role         String   @default("MEMBER") // OWNER, MODERATOR, MEMBER
+  joined_at    DateTime @default(now())
+
+  community Community @relation(fields: [community_id], references: [community_id])
+
+  @@id([community_id, user_id])
+  @@index([user_id])
+  @@map("community_members")
 }
 
 // ============================================================
