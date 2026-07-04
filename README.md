@@ -2,6 +2,26 @@
 
 > An all-in-one college portal exclusively for DES Pune University students and faculty — combining Google Classroom, WhatsApp, Discord, and GitHub Codespaces into a single platform locked to `@despuniversity.edu.in` emails.
 
+## 🧠 What Is This?
+
+DES Unified Platform is an all-in-one college portal built exclusively for **DES Pune University** students and faculty. It's a living digital campus where students collaborate, learn, communicate, build projects, and share knowledge, all in one place without switching between multiple apps.
+
+It solves the problem of students being scattered across WhatsApp groups, Google Classroom, and random Google Drive links by providing a single, unified platform with one login.
+
+## ✨ Features
+
+- **🔐 Access & Identity**: Locked to `@despuniversity.edu.in` emails. Roles include Student, Faculty, Admin, Contributor, and Project Leader.
+- **🏫 Academic Structure**: Auto-enrollment into department, semester, and subject spaces based on ERP data.
+- **💬 Discussion Forums**: Subject-specific and student-created forums with rich text editing, threaded replies, and upvoting.
+- **📚 Study Material Platform**: A curated, searchable library for public notes, Topper Notes, and faculty resources.
+- **💬 Real-Time Chat**: 1-to-1 and group messaging (subject, project, department groups).
+- **📝 Form Builder**: Integrated forms (like Google Forms) directly in chat for rapid data collection.
+- **🚀 Project Marketplace**: A campus-wide hub for finding collaborators, posting open roles, and showcasing projects.
+- **📊 Dashboard**: Personalized bento-grid layout with widgets for announcements, deadlines, shortcuts, and stats.
+- **🏆 Gamification**: Badges, XP points, and leaderboards to reward student contributions.
+- **💻 Collaborative Cloud IDE (Coming Soon)**: Real-time, browser-based collaborative coding environment.
+- **📞 Voice & Video (Coming Soon)**: Integrated WebRTC-based calling and screen sharing.
+
 ---
 
 ## Project Structure
