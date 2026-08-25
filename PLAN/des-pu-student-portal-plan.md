@@ -11,7 +11,7 @@
 
 DES Unified Platform is an all-in-one college portal built exclusively for **DES Pune University** students and faculty. Think of it as:
 
-> **Google Classroom + WhatsApp + Discord + GitHub Codespaces** — fused into one platform, locked to `@despuniversity.edu.in` emails, and built from the ground up for the DES campus experience.
+> **Google Classroom + WhatsApp + Discord + GitHub Codespaces** — fused into one platform, locked to `@despu.edu.in` emails, and built from the ground up for the DES campus experience.
 
 This is not an ERP replacement. It's not an attendance tracker. It's a **living digital campus** — where students collaborate, learn, communicate, build projects, and share knowledge, all in one place without switching between 5 different apps.
 
@@ -29,7 +29,7 @@ DES Unified Platform kills all of that with one login.
 
 ## 🔐 Access & Identity
 
-Only people with a valid `@despuniversity.edu.in` email can create an account. No exceptions. Accounts are tied to ERP data — your department, semester, roll number, and enrolled subjects are pre-loaded. You don't set those up, you just log in and you're already placed in your correct academic spaces.
+Only people with a valid `@despu.edu.in` email can create an account. No exceptions. Accounts are tied to ERP data — your department, semester, roll number, and enrolled subjects are pre-loaded. You don't set those up, you just log in and you're already placed in your correct academic spaces.
 
 ### Roles
 
@@ -285,7 +285,7 @@ Sidebar
 - Audit logs
 
 ### Security
-- Domain-restricted auth (`@despuniversity.edu.in` only)
+- Domain-restricted auth (`@despu.edu.in` only)
 - JWT-based secure sessions
 - Rate limiting & anti-spam
 - File scanning on upload
