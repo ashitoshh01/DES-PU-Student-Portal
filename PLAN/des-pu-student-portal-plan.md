@@ -130,6 +130,22 @@ A curated, searchable library of academic content — organized by subject.
 
 ---
 
+## 📝 Form Builder (Google Forms Replacement)
+
+Eliminates dependency on external platforms like Google Forms by integrating form creation directly into the platform, serving as a rapid MVP validation tool and data-gathering workflow.
+
+### Form Creation & Sharing
+- Create forms with short/long text, multiple choice, checkboxes, dropdowns, date/time, and file uploads.
+- Required/optional questions and response validation.
+- Share forms as an interactive card directly in chat via a new **Form Attachment** option (alongside Images, Documents, Files).
+- Recipients can open and submit responses without leaving the chat conversation.
+
+### Permissions & Management
+- Group-level permissions: Admins can configure who can send forms (e.g., allow everyone, admin-only, disable sharing entirely).
+- Form creators can view submissions, export responses, track counts, edit active forms, close forms manually, and analyze collected data through dashboards.
+
+---
+
 ## 📞 Voice & Video
 
 - 1-to-1 and group voice calls
@@ -407,6 +423,7 @@ des-platform/
 ### Week 3 — WhatsApp + Discord Layer
 - [ ] Real-time 1-to-1 chat (Socket.io)
 - [ ] Group chats (subject groups, custom groups)
+- [ ] Form Builder (Google Forms Replacement) integration in chat
 - [ ] Online/offline/away presence
 - [ ] Real-time notifications system
 - [ ] Profile system
@@ -441,11 +458,12 @@ These features ship no matter what:
 3. Discussion forums with threaded replies & upvotes
 4. Study material uploads & resource library
 5. Real-time 1-to-1 and group chat
-6. Notification system
-7. Profile system with roles and badges
-8. Project Marketplace
-9. Personalized dashboard
-10. Dark / Light mode
+6. Form Builder integrated directly into the chat system
+7. Notification system
+8. Profile system with roles and badges
+9. Project Marketplace
+10. Personalized dashboard
+11. Dark / Light mode
 
 ---
 

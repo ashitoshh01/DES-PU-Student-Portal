@@ -49,11 +49,24 @@ enum ConversationType {
   PROJECT_GROUP
 }
 
+
 enum MessageType {
   TEXT
   IMAGE
   FILE
+  FORM
   SYSTEM
+}
+
+enum FormQuestionType {
+  SHORT_TEXT
+  LONG_TEXT
+  MULTIPLE_CHOICE
+  CHECKBOX
+  DROPDOWN
+  DATE
+  TIME
+  FILE_UPLOAD
 }
 
 enum NotificationType {
@@ -545,18 +558,134 @@ model PostBookmark {
 model Conversation {
   conv_id     String           @id @default(uuid())
   type        ConversationType @default(DIRECT)
-  name        String?          // group name (null for DIRECT)
-  avatar_key  String?          // R2 key for group avatar
+  name        String?
+  avatar_key  String?
   created_by  String
-  created_at  DateTime         @default(now())
-  updated_at  DateTime         @updatedAt
+
+  // NEW PERMISSIONS
+  allow_member_messages Boolean @default(true)
+  allow_member_media    Boolean @default(true)
+  allow_member_forms    Boolean @default(true)
+
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
   members  ConversationMember[]
   messages Message[]
 
+  forms Form[]
+
   @@index([created_by])
   @@map("conversations")
 }
+
+// ============================================================
+// PHASE 2.5 — FORMS (GOOGLE FORMS REPLACEMENT)
+// ============================================================
+
+model Form {
+  form_id      String   @id @default(uuid())
+
+  title        String
+  description  String?
+
+  created_by   String
+
+  conv_id      String?
+
+  is_active    Boolean  @default(true)
+
+  allow_edit_responses Boolean @default(false)
+
+  response_count Int @default(0)
+
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  conversation Conversation? @relation(fields: [conv_id], references: [conv_id])
+
+  questions FormQuestion[]
+
+  responses FormResponse[]
+
+  messages Message[]
+
+  @@index([created_by])
+  @@index([conv_id])
+
+  @@map("forms")
+}
+
+model FormQuestion {
+  question_id String @id @default(uuid())
+
+  form_id     String
+
+  question    String
+
+  type        FormQuestionType
+
+  is_required Boolean @default(false)
+
+  position    Int
+
+  options     String[]
+
+  created_at  DateTime @default(now())
+
+  form Form @relation(fields: [form_id], references: [form_id])
+
+  answers FormAnswer[]
+
+  @@index([form_id])
+
+  @@map("form_questions")
+}
+
+model FormResponse {
+  response_id String @id @default(uuid())
+
+  form_id      String
+
+  respondent_id String
+
+  submitted_at DateTime @default(now())
+
+  form Form @relation(fields: [form_id], references: [form_id])
+
+  answers FormAnswer[]
+
+  @@index([form_id])
+  @@index([respondent_id])
+
+  @@map("form_responses")
+}
+
+model FormAnswer {
+  answer_id String @id @default(uuid())
+
+  response_id String
+
+  question_id String
+
+  answer_text String?
+
+  answer_array String[]
+
+  file_r2_key String?
+
+  created_at DateTime @default(now())
+
+  response FormResponse @relation(fields: [response_id], references: [response_id])
+
+  question FormQuestion @relation(fields: [question_id], references: [question_id])
+
+  @@index([response_id])
+  @@index([question_id])
+
+  @@map("form_answers")
+}
+
 
 model ConversationMember {
   conv_id   String
@@ -577,7 +706,12 @@ model Message {
   sender_id   String
   content     String
   type        MessageType @default(TEXT)
-  r2_key      String?     // R2 key for IMAGE / FILE messages
+
+  r2_key      String?
+
+  // NEW
+  form_id     String?
+
   is_deleted  Boolean     @default(false)
   edited_at   DateTime?
   created_at  DateTime    @default(now())
@@ -585,9 +719,12 @@ model Message {
   conversation  Conversation         @relation(fields: [conv_id], references: [conv_id])
   read_receipts MessageReadReceipt[]
 
+  form Form? @relation(fields: [form_id], references: [form_id])
+
   @@index([conv_id])
   @@index([sender_id])
   @@index([created_at])
+
   @@map("messages")
 }
 

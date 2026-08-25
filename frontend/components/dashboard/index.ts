@@ -1,9 +1,10 @@
-// TODO: Dashboard components
-// - BentoGrid: drag-and-drop widget grid container
-// - ActivityFeedWidget: recent activity across subjects
-// - DeadlinesWidget: upcoming assignment/project deadlines
-// - RecentChatsWidget: last few conversations preview
-// - AnnouncementsWidget: latest faculty announcements
-// - StorageWidget: R2 storage usage progress bar
-
-export {};
+export { default as HeroCard } from "./HeroCard";
+export { default as DeadlineCard } from "./DeadlineCard";
+export { default as AnnouncementCard } from "./AnnouncementCard";
+export { default as CalendarCard } from "./CalendarCard";
+export { default as ChatsCard } from "./ChatsCard";
+export { default as SubjectsCard } from "./SubjectsCard";
+export { default as ActivityCard } from "./ActivityCard";
+export { default as ProjectsCard } from "./ProjectsCard";
+export { default as ContributionCard } from "./ContributionCard";
+export { default as StorageCard } from "./StorageCard";

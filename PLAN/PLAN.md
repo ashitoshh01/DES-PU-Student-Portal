@@ -76,6 +76,13 @@ Auto-enrollment on first login based on ERP data.
 - Typing indicators, read receipts, media sharing
 - Online / Offline / Away presence
 
+### Form Builder (Google Forms Replacement)
+- Create custom forms (short text, long text, MCQs, checkboxes, dropdowns, date/time, file uploads)
+- Required/optional fields and response validation
+- Form sharing directly inside the chat system as an interactive card (new Form Attachment option)
+- Group-level permissions (e.g., admin-only, faculty-only, or everyone)
+- Response management: View submissions, export responses, track counts, analyze data
+
 ### Project Marketplace
 - Post open roles: Frontend, Backend, Designer, ML Engineer, etc.
 - Apply to join projects, team management dashboard
@@ -388,6 +395,7 @@ All of the above → **BullMQ queues with dedicated worker processes**.
 ### Week 3 — Chat & Social Layer
 - Real-time 1-to-1 chat (Socket.io)
 - Group chats (subject groups, custom groups)
+- Form Builder integration in Chat (create and share forms)
 - Online / offline / away presence
 - Real-time notifications system
 - Profile system
@@ -421,11 +429,12 @@ All of the above → **BullMQ queues with dedicated worker processes**.
 3. Discussion forums with threaded replies & upvotes
 4. Study material uploads & resource library
 5. Real-time 1-to-1 and group chat
-6. Notification system
-7. Profile system with roles and badges
-8. Project Marketplace
-9. Personalized dashboard
-10. Dark / Light mode
+6. Form Builder integrated directly into the chat system
+7. Notification system
+8. Profile system with roles and badges
+9. Project Marketplace
+10. Personalized dashboard
+11. Dark / Light mode
 
 ---
 
